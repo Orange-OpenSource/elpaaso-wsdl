@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:model="http://www.orange.com/paas/administration/v4/model"
+	xmlns:xmime="http://www.w3.org/2005/05/xmlmime" targetNamespace="http://www.orange.com/paas/administration/v4/model">
+
+	<!-- Xsd Version : ${project.version} - Built on ${timestamp} -->
+
+	<complexType name="CreateApplicationCommand">
+		<sequence>
+			<element name="label" type="model:labelType" minOccurs="1" />
+			<element name="code" type="model:codeType" minOccurs="1" />
+			<element name="description" type="model:descriptionType"
+				minOccurs="0" />
+			<element name="registryUrl" type="model:URIType" minOccurs="0" />
+			<element name="isPublic" type="model:isPublicType" minOccurs="0" />
+		</sequence>
+	</complexType>
+
+
+	<complexType name="CreateReleaseCommand">
+		<sequence>
+			<element name="version" type="model:releaseVersionType"
+				minOccurs="1" />
+			<element name="applicationUID" type="model:UUIDType"
+				minOccurs="1" />
+			<element name="description" type="model:descriptionType"
+				minOccurs="0" />
+			<element name="versionControlUrl" type="model:URIType"
+				minOccurs="0" />
+			<element name="profileVersion" type="model:profileVersion"
+				minOccurs="0" />
+		</sequence>
+	</complexType>
+
+	<!--ajout complex type APPLICATION -->
+	<complexType name="ApplicationModel">
+		<sequence>
+			<element name="uid" type="model:UUIDType" minOccurs="1" />
+			<element name="label" type="model:labelType" minOccurs="1" />
+			<element name="code" type="model:codeType" minOccurs="1" />
+			<element name="description" type="model:descriptionType"
+				minOccurs="0" />
+			<element name="registryUrl" type="model:URIType" minOccurs="0" />
+		</sequence>
+	</complexType>
+
+	<complexType name="ReleaseModel">
+		<sequence>
+			<element name="uid" type="model:UUIDType" minOccurs="1" />
+			<element name="version" type="model:releaseVersionType"
+				minOccurs="1" />
+			<element name="applicationUID" type="model:UUIDType"
+				minOccurs="1" />
+			<element name="state" type="model:stateType" minOccurs="1" />
+			<element name="description" type="model:descriptionType"
+				minOccurs="0" />
+			<element name="versionControlUrl" type="model:URIType"
+				minOccurs="0" />
+		</sequence>
+	</complexType>
+
+	<complexType name="MiddlewareProfile">
+		<sequence>
+			<element name="version" type="model:profileVersion"
+				minOccurs="1" />
+			<element name="status" type="model:profileStatus" minOccurs="1" />
+		</sequence>
+	</complexType>
+
+	<simpleType name="labelType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Label : champ obligatoire, ne peut etre vide /
+				null
+				Contient uniquement des caracteres alphanumeriques, 128
+				caracteres max
+			</xsd:documentation>
+		</xsd:annotation>
+		<restriction base="string">
+			<maxLength value="128" />
+			<pattern value="[a-zA-Z0-9]+" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="codeType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Code : champ obligatoire, ne peut etre vide / null
+				Contient uniquement des caracteres alphanumeriques - Au max 15
+				caracteres
+			</xsd:documentation>
+		</xsd:annotation>
+		<restriction base="string">
+			<maxLength value="15" />
+			<pattern value="[a-zA-Z0-9]+" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="descriptionType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Description : champ facultatif, peut etre vide ou
+				null
+				Au maximum 255 caracteres
+			</xsd:documentation>
+		</xsd:annotation>
+		<restriction base="string">
+			<maxLength value="255" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="profileVersion">
+		<xsd:annotation>
+			<xsd:documentation>
+				Description : specifie une version de middleware
+				profile cible
+				Au maximum 255 caracteres
+			</xsd:documentation>
+		</xsd:annotation>
+		<restriction base="string">
+			<maxLength value="255" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="profileStatus">
+		<xsd:annotation>
+			<xsd:documentation>
+				Description : status d'un profil middleware
+				Au
+				maximum 255 caracteres
+			</xsd:documentation>
+		</xsd:annotation>
+		<restriction base="string">
+			<maxLength value="255" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="isPublicType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Booleen indiquant si l'application est de type
+				public ou non
+			</xsd:documentation>
+		</xsd:annotation>
+		<restriction base="boolean">
+			<pattern value='true|false' />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="releaseVersionType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Version (release) : champ obligatoire, ne peut
+				etre vide / null
+				Contient uniquement des caracteres alphanumeriques -
+				Au max 20 caracteres
+			</xsd:documentation>
+		</xsd:annotation>
+		<restriction base="string">
+			<maxLength value="20" />
+			<pattern value="[a-zA-Z0-9]+" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="URIType">
+		<xsd:annotation>
+			<xsd:documentation>
+				URL : champ facultatif
+				Format standard d'une URL
+				(http|ftp|...)://www.blah.com
+				ou (http|ftp|...)://xxx.xxx.xxx.xxx)
+			</xsd:documentation>
+		</xsd:annotation>
+		<restriction base="string">
+			<minLength value="1" />
+			<pattern
+				value="(((ht|f)tp(s?):\/\/)|(www\.[^ \[\]\(\)\n\r\t]+)|(([012]?[0-9]{1,2}\.){3}[012]?[0-9]{1,2})\/)([^ \[\]\(\),;&quot;'&lt;&gt;\n\r\t]+)([^\. \[\]\(\),;&quot;'&lt;&gt;\n\r\t])|(([012]?[0-9]{1,2}\.){3}[012]?[0-9]{1,2})" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="UUIDType">
+		<xsd:annotation>
+			<xsd:documentation>
+				applicationUID : champ obligatoire, ne peut etre
+				vide / null
+				Chaine de caracteres alphanumerique (hexa), 36
+				characteres max
+			</xsd:documentation>
+		</xsd:annotation>
+		<restriction base="string">
+			<maxLength value="36" />
+			<pattern
+				value="[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="stateType">
+		<xsd:annotation>
+			<xsd:documentation>
+				stateType : champ obligatoire, ne peut etre
+				vide/null
+				Enumeration (chaine de caractère)
+			</xsd:documentation>
+		</xsd:annotation>
+		<restriction base="xsd:string">
+			<xsd:enumeration value="EDITING" />
+			<xsd:enumeration value="VALIDATED" />
+			<xsd:enumeration value="LOCKED" />
+			<xsd:enumeration value="DISCARDED" />
+			<xsd:enumeration value="REMOVED" />
+		</restriction>
+	</simpleType>
+
+</schema>

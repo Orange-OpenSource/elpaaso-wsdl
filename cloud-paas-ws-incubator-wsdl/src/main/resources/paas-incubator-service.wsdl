@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<wsdl:definitions xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:intf="http://www.orange.com/paas/incubator/v4/PaasIncubatorService"
+	xmlns:model="http://www.orange.com/paas/incubator/v4/model"
+	xmlns:security="http://www.orange.com/paas/security/v1"
+	xmlns:exception="http://www.orange.com/paas/incubator/v4/exception"
+	targetNamespace="http://www.orange.com/paas/incubator/v4/PaasIncubatorService">
+
+	<wsdl:documentation>
+		Wsdl Version : ${project.version} - Built on
+		${timestamp}
+	</wsdl:documentation>
+
+	<wsdl:types>
+
+		<schema xmlns="http://www.w3.org/2001/XMLSchema"
+			xmlns:security="http://www.orange.com/paas/security/v1">
+
+			<import namespace="http://www.orange.com/paas/security/v1"
+				schemaLocation="paas-security.xsd" />
+
+		</schema>
+
+		<schema xmlns="http://www.w3.org/2001/XMLSchema"
+			xmlns:exception="http://www.orange.com/paas/incubator/v4/exception">
+
+			<import namespace="http://www.orange.com/paas/incubator/v4/exception"
+				schemaLocation="paas-incubator-exception.xsd" />
+
+		</schema>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema"
+			targetNamespace="http://www.orange.com/paas/incubator/v4/PaasIncubatorService"
+			xmlns:model="http://www.orange.com/paas/incubator/v4/model" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			elementFormDefault="qualified">
+
+			<import namespace="http://www.orange.com/paas/incubator/v4/model"
+				schemaLocation="paas-incubator-model.xsd" />
+
+			<element name="setLogicalDeploymentFromCatalog">
+				<complexType>
+					<sequence>
+						<element name="command" type="model:SetLogicalDeploymentFromCatalogCommand" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="setLogicalDeploymentFromCatalogResponse">
+				<complexType />
+			</element>
+
+			<element name="createUser">
+			<complexType>
+					<sequence>
+						<element name="command" type="model:CreateUserCommand" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="createUserResponse">
+				<complexType />
+			</element>
+
+		</schema>
+	</wsdl:types>
+
+	<wsdl:message name="headerRequest">
+		<wsdl:part name="header" element="security:credentials" />
+	</wsdl:message>
+
+	<wsdl:message name="setLogicalDeploymentFromCatalogRequest">
+		<wsdl:part name="parameters" element="intf:setLogicalDeploymentFromCatalog" />
+	</wsdl:message>
+
+	<wsdl:message name="setLogicalDeploymentFromCatalogResponse">
+		<wsdl:part name="parameters"
+			element="intf:setLogicalDeploymentFromCatalogResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="createUserRequest">
+		<wsdl:part name="parameters" element="intf:createUser" />
+	</wsdl:message>
+
+	<wsdl:message name="createUserResponse">
+		<wsdl:part name="parameters" element="intf:createUserResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="invalidLogicalDeploymentErrorFault">
+		<wsdl:part name="fault" element="exception:invalidLogicalDeploymentError" />
+	</wsdl:message>
+
+	<wsdl:portType name="PaasIncubatorService">
+
+		<wsdl:operation name="setLogicalDeploymentFromCatalog">
+			<wsdl:input name="setLogicalDeploymentFromCatalogRequest"
+				message="intf:setLogicalDeploymentFromCatalogRequest" />
+			<wsdl:output name="setLogicalDeploymentFromCatalogResponse"
+				message="intf:setLogicalDeploymentFromCatalogResponse" />
+			<wsdl:fault name="invalidLogicalDeploymentErrorFault"
+				message="intf:invalidLogicalDeploymentErrorFault" />
+		</wsdl:operation>
+		<wsdl:operation name="createUser">
+			<wsdl:input name="createUserRequest" message="intf:createUserRequest" />
+			<wsdl:output name="createUserResponse" message="intf:createUserResponse" />
+		</wsdl:operation>
+
+	</wsdl:portType>
+
+	<wsdl:binding name="PaasIncubatorServicePortSoapBinding"
+		type="intf:PaasIncubatorService">
+		<wsdlsoap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+
+		<wsdl:operation name="setLogicalDeploymentFromCatalog">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="setLogicalDeploymentFromCatalogRequest">
+				<wsdlsoap:header use="literal" message="intf:headerRequest"
+					part="header" />
+				<wsdlsoap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="setLogicalDeploymentFromCatalogResponse">
+				<wsdlsoap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="createUser">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="createUserRequest">
+				<wsdlsoap:header use="literal" message="intf:headerRequest"
+					part="header" />
+				<wsdlsoap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="createUserResponse">
+				<wsdlsoap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="PaasIncubatorService">
+		<wsdl:port name="PaasIncubatorServicePort" binding="intf:PaasIncubatorServicePortSoapBinding">
+			<wsdlsoap:address location="localhost:9000" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

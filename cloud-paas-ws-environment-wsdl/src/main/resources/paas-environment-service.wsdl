@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<wsdl:definitions xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:intf="http://www.orange.com/paas/environment/v3/PaasEnvironmentService"
+	xmlns:model="http://www.orange.com/paas/environment/v3/model"
+	xmlns:exception="http://www.orange.com/paas/environment/v3/exception"
+	xmlns:security="http://www.orange.com/paas/security/v1"
+	targetNamespace="http://www.orange.com/paas/environment/v3/PaasEnvironmentService">
+
+	<wsdl:documentation>
+		Wsdl Version : ${project.version} - Built on
+		${timestamp}
+	</wsdl:documentation>
+
+	<wsdl:types>
+
+		<schema xmlns="http://www.w3.org/2001/XMLSchema"
+			xmlns:security="http://www.orange.com/paas/security/v1">
+
+			<import namespace="http://www.orange.com/paas/security/v1"
+				schemaLocation="paas-security.xsd" />
+
+		</schema>
+
+		<schema xmlns="http://www.w3.org/2001/XMLSchema"
+			xmlns:exception="http://www.orange.com/paas/environment/v3/exception">
+
+			<import namespace="http://www.orange.com/paas/environment/v3/exception"
+				schemaLocation="paas-environment-exception.xsd" />
+
+		</schema>
+
+		<schema xmlns="http://www.w3.org/2001/XMLSchema"
+			targetNamespace="http://www.orange.com/paas/environment/v3/PaasEnvironmentService"
+			xmlns:model="http://www.orange.com/paas/environment/v3/model" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			elementFormDefault="qualified">
+
+			<import namespace="http://www.orange.com/paas/environment/v3/model"
+				schemaLocation="paas-environment-model.xsd" />
+
+			<!--debut create Environment -->
+			<element name="createEnvironment">
+				<complexType>
+					<sequence>
+						<element name="createEnvironmentCommand" type="model:CreateEnvironmentCommand" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="createEnvironmentResponse">
+				<complexType>
+					<sequence>
+						<element name="uid" type="string" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="deleteEnvironment">
+				<complexType>
+					<sequence>
+						<element name="deleteEnvironmentCommand" type="model:DeleteEnvironmentCommand" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="deleteEnvironmentResponse">
+				<complexType />
+			</element>
+
+			<element name="startEnvironment">
+				<complexType>
+					<sequence>
+						<element name="startEnvironmentCommand" type="model:StartEnvironmentCommand" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="startEnvironmentResponse">
+				<complexType />
+			</element>
+
+			<element name="stopEnvironment">
+				<complexType>
+					<sequence>
+						<element name="stopEnvironmentCommand" type="model:StopEnvironmentCommand" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="stopEnvironmentResponse">
+				<complexType />
+			</element>
+
+			<element name="getEnvironment">
+				<complexType>
+					<sequence>
+						<element name="uid" type="string" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="getEnvironmentResponse">
+				<complexType>
+					<sequence>
+						<element name="environment" type="model:EnvironmentModel" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="findAndGetEnvironmentsByRelease">
+				<complexType>
+					<sequence>
+						<element name="releaseUID" type="string" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="findAndGetEnvironmentsByReleaseResponse">
+				<complexType>
+					<sequence>
+						<element name="environment" type="model:EnvironmentModel"
+							maxOccurs="unbounded" minOccurs="0"/>
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="getEnvironmentStatus">
+				<complexType>
+					<sequence>
+						<element name="uid" type="string" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="getEnvironmentStatusResponse">
+				<complexType>
+					<sequence>
+						<element name="status" type="model:EnvironmentStatus" />
+					</sequence>
+				</complexType>
+			</element>
+
+		</schema>
+	</wsdl:types>
+
+	<wsdl:message name="headerRequest">
+		<wsdl:part name="header" element="security:credentials" />
+	</wsdl:message>
+
+	<wsdl:message name="createEnvironmentRequest">
+		<wsdl:part name="parameters" element="intf:createEnvironment" />
+	</wsdl:message>
+
+	<wsdl:message name="createEnvironmentResponse">
+		<wsdl:part name="parameters" element="intf:createEnvironmentResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="startEnvironmentRequest">
+		<wsdl:part name="parameters" element="intf:startEnvironment" />
+	</wsdl:message>
+
+	<wsdl:message name="startEnvironmentResponse">
+		<wsdl:part name="parameters" element="intf:startEnvironmentResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="stopEnvironmentRequest">
+		<wsdl:part name="parameters" element="intf:stopEnvironment" />
+	</wsdl:message>
+
+	<wsdl:message name="stopEnvironmentResponse">
+		<wsdl:part name="parameters" element="intf:stopEnvironmentResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="deleteEnvironmentRequest">
+		<wsdl:part name="parameters" element="intf:deleteEnvironment" />
+	</wsdl:message>
+	<wsdl:message name="deleteEnvironmentResponse">
+		<wsdl:part name="parameters" element="intf:deleteEnvironmentResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="getEnvironmentRequest">
+		<wsdl:part name="parameters" element="intf:getEnvironment" />
+	</wsdl:message>
+
+	<wsdl:message name="getEnvironmentResponse">
+		<wsdl:part name="parameters" element="intf:getEnvironmentResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="findAndGetEnvironmentsByReleaseRequest">
+		<wsdl:part name="parameters" element="intf:findAndGetEnvironmentsByRelease" />
+	</wsdl:message>
+
+	<wsdl:message name="findAndGetEnvironmentsByReleaseResponse">
+		<wsdl:part name="parameters"
+			element="intf:findAndGetEnvironmentsByReleaseResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="getEnvironmentStatusRequest">
+		<wsdl:part name="parameters" element="intf:getEnvironmentStatus" />
+	</wsdl:message>
+
+	<wsdl:message name="getEnvironmentStatusResponse">
+		<wsdl:part name="parameters" element="intf:getEnvironmentStatusResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="invalidEnvironmentErrorFault">
+		<wsdl:part name="fault" element="exception:invalidEnvironmentError" />
+	</wsdl:message>
+
+	<wsdl:message name="environmentNotFoundErrorFault">
+		<wsdl:part name="fault" element="exception:environmentNotFoundError" />
+	</wsdl:message>
+
+	<wsdl:message name="releaseNotFoundErrorFault">
+		<wsdl:part name="fault" element="exception:releaseNotFoundError" />
+	</wsdl:message>
+
+	<wsdl:message name="paasUserNotFoundErrorFault">
+		<wsdl:part name="fault" element="exception:paasUserNotFoundError" />
+	</wsdl:message>
+
+	<wsdl:portType name="PaasEnvironmentService">
+
+		<wsdl:operation name="createEnvironment">
+			<wsdl:input name="createEnvironmentRequest" message="intf:createEnvironmentRequest" />
+			<wsdl:output name="createEnvironmentResponse" message="intf:createEnvironmentResponse" />
+			<wsdl:fault name="releaseNotFoundErrorFault" message="intf:releaseNotFoundErrorFault" />
+			<wsdl:fault name="paasUserNotFoundErrorFault" message="intf:paasUserNotFoundErrorFault" />
+			<wsdl:fault name="invalidEnvironmentErrorFault" message="intf:invalidEnvironmentErrorFault" />
+		</wsdl:operation>
+
+		<wsdl:operation name="startEnvironment">
+			<wsdl:input name="startEnvironmentRequest" message="intf:startEnvironmentRequest" />
+			<wsdl:output name="startEnvironmentResponse" message="intf:startEnvironmentResponse" />
+			<wsdl:fault name="environmentNotFoundErrorFault" message="intf:environmentNotFoundErrorFault" />
+		</wsdl:operation>
+
+		<wsdl:operation name="stopEnvironment">
+			<wsdl:input name="stopEnvironmentRequest" message="intf:stopEnvironmentRequest" />
+			<wsdl:output name="stopEnvironmentResponse" message="intf:stopEnvironmentResponse" />
+			<wsdl:fault name="environmentNotFoundErrorFault" message="intf:environmentNotFoundErrorFault" />
+		</wsdl:operation>
+
+		<wsdl:operation name="deleteEnvironment">
+			<wsdl:input name="deleteEnvironmentRequest" message="intf:deleteEnvironmentRequest" />
+			<wsdl:output name="deleteEnvironmentResponse" message="intf:deleteEnvironmentResponse" />
+			<wsdl:fault name="environmentNotFoundErrorFault" message="intf:environmentNotFoundErrorFault" />
+		</wsdl:operation>
+
+		<wsdl:operation name="getEnvironment">
+			<wsdl:input name="getEnvironmentRequest" message="intf:getEnvironmentRequest" />
+			<wsdl:output name="getEnvironmentResponse" message="intf:getEnvironmentResponse" />
+			<wsdl:fault name="environmentNotFoundErrorFault" message="intf:environmentNotFoundErrorFault" />
+		</wsdl:operation>
+
+		<wsdl:operation name="findAndGetEnvironmentsByRelease">
+			<wsdl:input name="findAndGetEnvironmentsByReleaseRequest"
+				message="intf:findAndGetEnvironmentsByReleaseRequest" />
+			<wsdl:output name="findAndGetEnvironmentsByReleaseResponse"
+				message="intf:findAndGetEnvironmentsByReleaseResponse" />
+			<wsdl:fault name="releaseNotFoundErrorFault" message="intf:releaseNotFoundErrorFault" />
+		</wsdl:operation>
+
+		<wsdl:operation name="getEnvironmentStatus">
+			<wsdl:input name="getEnvironmentStatusRequest" message="intf:getEnvironmentStatusRequest" />
+			<wsdl:output name="getEnvironmentStatusResponse" message="intf:getEnvironmentStatusResponse" />
+			<wsdl:fault name="environmentNotFoundErrorFault" message="intf:environmentNotFoundErrorFault" />
+		</wsdl:operation>
+
+	</wsdl:portType>
+
+	<wsdl:binding name="PaasEnvironmentServicePortSoapBinding"
+		type="intf:PaasEnvironmentService">
+		<wsdlsoap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+
+		<wsdl:operation name="createEnvironment">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="createEnvironmentRequest">
+				<wsdlsoap:body use="literal" />
+				<wsdlsoap:header use="literal" message="intf:headerRequest"
+					part="header" />
+			</wsdl:input>
+			<wsdl:output name="createEnvironmentResponse">
+				<wsdlsoap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="startEnvironment">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="startEnvironmentRequest">
+				<wsdlsoap:body use="literal" />
+				<wsdlsoap:header use="literal" message="intf:headerRequest"
+					part="header" />
+			</wsdl:input>
+			<wsdl:output name="startEnvironmentResponse">
+				<wsdlsoap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="stopEnvironment">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="stopEnvironmentRequest">
+				<wsdlsoap:body use="literal" />
+				<wsdlsoap:header use="literal" message="intf:headerRequest"
+					part="header" />
+			</wsdl:input>
+			<wsdl:output name="stopEnvironmentResponse">
+				<wsdlsoap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="deleteEnvironment">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="deleteEnvironmentRequest">
+				<wsdlsoap:header use="literal" message="intf:headerRequest"
+					part="header" />
+				<wsdlsoap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="deleteEnvironmentResponse">
+				<wsdlsoap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="getEnvironment">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="getEnvironmentRequest">
+				<wsdlsoap:header use="literal" message="intf:headerRequest"
+					part="header" />
+				<wsdlsoap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getEnvironmentResponse">
+				<wsdlsoap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="findAndGetEnvironmentsByRelease">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="findAndGetEnvironmentsByReleaseRequest">
+				<wsdlsoap:body use="literal" />
+				<wsdlsoap:header use="literal" message="intf:headerRequest"
+					part="header" />
+			</wsdl:input>
+			<wsdl:output name="findAndGetEnvironmentsByReleaseResponse">
+				<wsdlsoap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="getEnvironmentStatus">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="getEnvironmentStatusRequest">
+				<wsdlsoap:header use="literal" message="intf:headerRequest"
+					part="header" />
+				<wsdlsoap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getEnvironmentStatusResponse">
+				<wsdlsoap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+	</wsdl:binding>
+
+	<wsdl:service name="PaasEnvironmentService">
+		<wsdl:port name="PaasEnvironmentServicePort" binding="intf:PaasEnvironmentServicePortSoapBinding">
+			<wsdlsoap:address location="localhost:9000" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
