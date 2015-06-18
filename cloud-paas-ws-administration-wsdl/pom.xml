@@ -31,15 +31,10 @@
     </scm>
 
     <distributionManagement>
-        <repository>
-            <id>elpaaso.release</id>
-            <name>elpaaso release repository</name>
-            <url>https://bintray.com/poblin/orange-oss</url>
-        </repository>
         <snapshotRepository>
-            <id>elpaaso.snapshot</id>
-            <name>elpaaso snapshot repository</name>
-            <url>https://bintray.com/poblin/orange-oss</url>
+            <id>oss.snapshot.local</id>
+            <name>oss-snapshot-local repository</name>
+            <url>http://oss.jfrog.org/artifactory/oss-snapshot-local</url>
         </snapshotRepository>
     </distributionManagement>
 
