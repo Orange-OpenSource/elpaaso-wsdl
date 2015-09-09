@@ -3,7 +3,7 @@ El PaaSo WSDL
 
 [![Build Status](https://travis-ci.org/Orange-OpenSource/elpaaso-wsdl.svg?branch=master)](https://travis-ci.org/Orange-OpenSource/elpaaso-wsdl)
 
-The El PaaSo wsdl repo contains wsdl contracts to use elpaaso api. Three contracts are available.
+The [ElPaaSo](https://github.com/Orange-OpenSource/elpaaso) wsdl repo contains wsdl contracts to use elpaaso api. Three contracts are available.
 
 # Contracts
 
