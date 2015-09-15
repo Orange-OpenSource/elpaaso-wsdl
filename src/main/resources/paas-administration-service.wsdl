@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<wsdl:definitions xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:intf="http://www.orange.com/paas/administration/v4/PaasAdministrationService"
+	xmlns:model="http://www.orange.com/paas/administration/v4/model"
+	xmlns:exception="http://www.orange.com/paas/administration/v4/exception"
+	xmlns:security="http://www.orange.com/paas/security/v1"
+	targetNamespace="http://www.orange.com/paas/administration/v4/PaasAdministrationService">
+
+	<wsdl:documentation>
+		Wsdl Version : ${project.version} - Built on
+		${timestamp}
+
+		Application :
+		ElPaaso - North API
+		Purpose :
+		Administration
+		web services
+		allowing one to :
+		- Create
+		an application
+		-
+		Create a release
+
+	</wsdl:documentation>
+
+	<wsdl:types>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema"
+			xmlns:security="http://www.orange.com/paas/security/v1">
+
+			<import namespace="http://www.orange.com/paas/security/v1"
+				schemaLocation="paas-security.xsd" />
+
+		</schema>
+
+		<schema xmlns="http://www.w3.org/2001/XMLSchema"
+			xmlns:exception="http://www.orange.com/paas/administration/v4/exception">
+
+			<import namespace="http://www.orange.com/paas/administration/v4/exception"
+				schemaLocation="paas-administration-exception.xsd" />
+
+		</schema>
+
+		<schema xmlns="http://www.w3.org/2001/XMLSchema"
+			targetNamespace="http://www.orange.com/paas/administration/v4/PaasAdministrationService"
+			xmlns:model="http://www.orange.com/paas/administration/v4/model"
+			xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+			<import namespace="http://www.orange.com/paas/administration/v4/model"
+				schemaLocation="paas-administration-model.xsd" />
+
+			<element name="createApplication">
+				<complexType>
+					<sequence>
+						<element name="createApplicationCommand" type="model:CreateApplicationCommand" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="createApplicationResponse">
+				<complexType>
+					<sequence>
+						<element name="uid" type="model:UUIDType" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="createRelease">
+				<complexType>
+					<sequence>
+						<element name="createReleaseCommand" type="model:CreateReleaseCommand" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="createReleaseResponse">
+				<complexType>
+					<sequence>
+						<element name="uid" type="model:UUIDType" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="findApplicationByLabel">
+				<complexType>
+					<sequence>
+						<element name="label" type="model:labelType" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="findApplicationByLabelResponse">
+				<complexType>
+					<sequence>
+						<element name="uid" type="model:UUIDType" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="getAllApplications">
+				<complexType />
+			</element>
+
+			<element name="getAllApplicationsResponse">
+				<complexType>
+					<sequence>
+						<element name="application" type="model:ApplicationModel"
+							maxOccurs="unbounded" minOccurs="0" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="deleteApplication">
+				<complexType>
+					<sequence>
+						<element name="uid" type="model:UUIDType" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="deleteApplicationResponse">
+				<complexType/>
+			</element>
+
+
+			<element name="findApplicationReleaseByApplicationUIDAndVersion">
+				<complexType>
+					<sequence>
+						<element name="applicationUID" type="model:UUIDType"
+							minOccurs="1" />
+						<element name="releaseVersion" type="model:releaseVersionType"
+							minOccurs="1" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="findApplicationReleaseByApplicationUIDAndVersionResponse">
+				<complexType>
+					<sequence>
+						<element name="uid" type="model:UUIDType" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="getApplicationReleasesByApplicationUID">
+				<complexType>
+					<sequence>
+						<element name="applicationUID" type="model:UUIDType" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="getApplicationReleasesByApplicationUIDResponse">
+				<complexType>
+					<sequence>
+						<element name="release" type="model:ReleaseModel"
+							maxOccurs="unbounded" minOccurs="0"/>
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="getApplicationRelease">
+				<complexType>
+					<sequence>
+						<element name="uid" type="model:UUIDType" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="getApplicationReleaseResponse">
+				<complexType>
+					<sequence>
+						<element name="Release" type="model:ReleaseModel" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="deleteApplicationRelease">
+				<complexType>
+					<sequence>
+						<element name="uid" type="model:UUIDType" />
+					</sequence>
+				</complexType>
+			</element>
+
+			<element name="deleteApplicationReleaseResponse">
+				<complexType/>
+			</element>
+			
+			<element name="getAllMiddlewareProfiles">
+				<complexType />
+			</element>
+
+			<element name="getAllMiddlewareProfilesResponse">
+				<complexType>
+					<sequence>
+						<element name="profile" type="model:MiddlewareProfile"
+							maxOccurs="unbounded" />
+					</sequence>
+				</complexType>
+			</element>			
+		</schema>
+	</wsdl:types>
+
+	<wsdl:message name="headerRequest">
+		<wsdl:part name="header" element="security:credentials" />
+	</wsdl:message>
+
+	<wsdl:message name="getAllMiddlewareProfilesRequest">
+		<wsdl:part name="parameters" element="intf:getAllMiddlewareProfiles" />
+	</wsdl:message>
+	<wsdl:message name="getAllMiddlewareProfilesResponse">
+		<wsdl:part name="parameters" element="intf:getAllMiddlewareProfilesResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="createApplicationRequest">
+		<wsdl:part name="parameters" element="intf:createApplication" />
+	</wsdl:message>
+
+	<wsdl:message name="createApplicationResponse">
+		<wsdl:part name="parameters" element="intf:createApplicationResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="createReleaseRequest">
+		<wsdl:part name="parameters" element="intf:createRelease" />
+	</wsdl:message>
+
+	<wsdl:message name="createReleaseResponse">
+		<wsdl:part name="parameters" element="intf:createReleaseResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="findApplicationByLabelRequest">
+		<wsdl:part name="parameters" element="intf:findApplicationByLabel" />
+	</wsdl:message>
+	<wsdl:message name="findApplicationByLabelResponse">
+		<wsdl:part name="parameters" element="intf:findApplicationByLabelResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="getAllApplicationsRequest">
+		<wsdl:part name="parameters" element="intf:getAllApplications" />
+	</wsdl:message>
+	<wsdl:message name="getAllApplicationsResponse">
+		<wsdl:part name="parameters" element="intf:getAllApplicationsResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="findApplicationReleaseByApplicationUIDAndVersionRequest">
+		<wsdl:part name="parameters"
+			element="intf:findApplicationReleaseByApplicationUIDAndVersion" />
+	</wsdl:message>
+	<wsdl:message
+		name="findApplicationReleaseByApplicationUIDAndVersionResponse">
+		<wsdl:part name="parameters"
+			element="intf:findApplicationReleaseByApplicationUIDAndVersionResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="getApplicationReleasesByApplicationUIDRequest">
+		<wsdl:part name="parameters"
+			element="intf:getApplicationReleasesByApplicationUID" />
+	</wsdl:message>
+	<wsdl:message name="getApplicationReleasesByApplicationUIDResponse">
+		<wsdl:part name="parameters"
+			element="intf:getApplicationReleasesByApplicationUIDResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="getApplicationReleaseRequest">
+		<wsdl:part name="parameters" element="intf:getApplicationRelease" />
+	</wsdl:message>
+
+	<wsdl:message name="getApplicationReleaseResponse">
+		<wsdl:part name="parameters" element="intf:getApplicationReleaseResponse" />
+	</wsdl:message>
+	
+	<wsdl:message name="deleteApplicationReleaseRequest">
+		<wsdl:part name="parameters" element="intf:deleteApplicationRelease" />
+	</wsdl:message>
+
+	<wsdl:message name="deleteApplicationReleaseResponse">
+		<wsdl:part name="parameters" element="intf:deleteApplicationReleaseResponse" />
+	</wsdl:message>
+	<wsdl:message name="duplicateApplicationErrorFault">
+		<wsdl:part name="fault" element="exception:duplicateApplicationError" />
+	</wsdl:message>
+
+	<wsdl:message name="duplicateReleaseErrorFault">
+		<wsdl:part name="fault" element="exception:duplicateReleaseError" />
+	</wsdl:message>
+
+	<wsdl:message name="applicationNotFoundErrorFault">
+		<wsdl:part name="fault" element="exception:applicationNotFoundError" />
+	</wsdl:message>
+
+	<wsdl:message name="releaseNotFoundErrorFault">
+		<wsdl:part name="fault" element="exception:releaseNotFoundError" />
+	</wsdl:message>
+
+	<wsdl:message name="paasUserNotFoundErrorFault">
+		<wsdl:part name="fault" element="exception:paasUserNotFoundError" />
+	</wsdl:message>
+
+	<wsdl:message name="deleteApplicationRequest">
+		<wsdl:part name="parameters" element="intf:deleteApplication"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="deleteApplicationResponse">
+		<wsdl:part name="parameters" element="intf:deleteApplicationResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="deleteApplicationFault">
+		<wsdl:part name="fault" element="intf:deleteApplicationFault"></wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="PaasAdministrationService">
+
+		<wsdl:operation name="createApplication">
+			<wsdl:input name="createApplicationRequest" message="intf:createApplicationRequest" />
+			<wsdl:output name="createApplicationResponse" message="intf:createApplicationResponse" />
+			<wsdl:fault name="duplicateAplicationErrorFault" message="intf:duplicateApplicationErrorFault" />
+			<wsdl:fault name="paasUserNotFoundErrorFault" message="intf:paasUserNotFoundErrorFault" />
+		</wsdl:operation>
+
+		<wsdl:operation name="createRelease">
+			<wsdl:input name="createReleaseRequest" message="intf:createReleaseRequest" />
+			<wsdl:output name="createReleaseResponse" message="intf:createReleaseResponse" />
+			<wsdl:fault name="duplicateReleaseErrorFault" message="intf:duplicateReleaseErrorFault" />
+			<wsdl:fault name="applicationNotFoundErrorFault" message="intf:applicationNotFoundErrorFault" />
+			<wsdl:fault name="paasUserNotFoundErrorFault" message="intf:paasUserNotFoundErrorFault" />
+		</wsdl:operation>
+
+		<wsdl:operation name="findApplicationByLabel">
+			<wsdl:input name="findApplicationByLabelRequest" message="intf:findApplicationByLabelRequest" />
+			<wsdl:output name="findApplicationByLabelResponse"
+				message="intf:findApplicationByLabelResponse" />
+			<wsdl:fault name="applicationNotFoundErrorFault" message="intf:applicationNotFoundErrorFault" />
+		</wsdl:operation>
+
+		<wsdl:operation name="getAllApplications">
+			<wsdl:input name="getAllApplicationsRequest" message="intf:getAllApplicationsRequest" />
+			<wsdl:output name="getAllApplicationsResponse" message="intf:getAllApplicationsResponse" />
+		</wsdl:operation>
+
+		<wsdl:operation name="deleteApplication">
+			<wsdl:input message="intf:deleteApplicationRequest"></wsdl:input>
+			<wsdl:output message="intf:deleteApplicationResponse"></wsdl:output>
+            <wsdl:fault name="applicationNotFoundErrorFault" message="intf:applicationNotFoundErrorFault"></wsdl:fault>
+        </wsdl:operation>
+
+		<wsdl:operation name="getAllMiddlewareProfiles">
+			<wsdl:input name="getAllMiddlewareProfilesRequest"
+				message="intf:getAllMiddlewareProfilesRequest" />
+			<wsdl:output name="getAllMiddlewareProfilesResponse"
+				message="intf:getAllMiddlewareProfilesResponse" />
+		</wsdl:operation>
+
+		<wsdl:operation name="findApplicationReleaseByApplicationUIDAndVersion">
+			<wsdl:input name="findApplicationReleaseByApplicationUIDAndVersionRequest"
+				message="intf:findApplicationReleaseByApplicationUIDAndVersionRequest" />
+			<wsdl:output
+				name="findApplicationReleaseByApplicationUIDAndVersionResponse"
+				message="intf:findApplicationReleaseByApplicationUIDAndVersionResponse" />
+			<wsdl:fault name="releaseNotFoundErrorFault" message="intf:releaseNotFoundErrorFault" />
+		</wsdl:operation>
+
+		<wsdl:operation name="getApplicationReleasesByApplicationUID">
+			<wsdl:input name="getApplicationReleasesByApplicationUIDRequest"
+				message="intf:getApplicationReleasesByApplicationUIDRequest" />
+			<wsdl:output name="getApplicationReleasesByApplicationUIDResponse"
+				message="intf:getApplicationReleasesByApplicationUIDResponse" />
+			<wsdl:fault name="applicationNotFoundErrorFault" message="intf:applicationNotFoundErrorFault" />
+		</wsdl:operation>
+
+		<wsdl:operation name="getApplicationRelease">
+			<wsdl:input name="getApplicationReleaseRequest" message="intf:getApplicationReleaseRequest" />
+			<wsdl:output name="getApplicationReleaseResponse"
+				message="intf:getApplicationReleaseResponse" />
+			<wsdl:fault name="releaseNotFoundErrorFault" message="intf:releaseNotFoundErrorFault" />
+		</wsdl:operation>
+
+		<wsdl:operation name="deleteApplicationRelease">
+			<wsdl:input name="deleteApplicationReleaseRequest" message="intf:deleteApplicationReleaseRequest" />
+			<wsdl:output name="deleteApplicationReleaseResponse"
+				message="intf:deleteApplicationReleaseResponse" />
+			<wsdl:fault name="releaseNotFoundErrorFault" message="intf:releaseNotFoundErrorFault" />
+		</wsdl:operation>
+
+	</wsdl:portType>
+
+	<wsdl:binding name="PaasAdministrationServicePortSoapBinding"
+		type="intf:PaasAdministrationService">
+		<wsdlsoap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="createApplication">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="createApplicationRequest">
+				<wsdlsoap:header use="literal" message="intf:headerRequest"
+					part="header" />
+				<wsdlsoap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="createApplicationResponse">
+				<wsdlsoap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="createRelease">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="createReleaseRequest">
+				<wsdlsoap:header use="literal" message="intf:headerRequest"
+					part="header" />
+				<wsdlsoap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="createReleaseResponse">
+				<wsdlsoap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="findApplicationByLabel">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="findApplicationByLabelRequest">
+				<wsdlsoap:header use="literal" message="intf:headerRequest"
+					part="header" />
+				<wsdlsoap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="findApplicationByLabelResponse">
+				<wsdlsoap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="getAllApplications">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="getAllApplicationsRequest">
+				<wsdlsoap:header use="literal" message="intf:headerRequest"
+					part="header" />
+				<wsdlsoap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getAllApplicationsResponse">
+				<wsdlsoap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="deleteApplication">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="deleteApplicationRequest">
+				<wsdlsoap:header use="literal" message="intf:headerRequest"
+					part="header" />
+				<wsdlsoap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="deleteApplicationResponse">
+				<wsdlsoap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="getAllMiddlewareProfiles">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="getAllMiddlewareProfilesRequest">
+				<wsdlsoap:header use="literal" message="intf:headerRequest"
+					part="header" />
+				<wsdlsoap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getAllMiddlewareProfilesResponse">
+				<wsdlsoap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="findApplicationReleaseByApplicationUIDAndVersion">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="findApplicationReleaseByApplicationUIDAndVersionRequest">
+				<wsdlsoap:header use="literal" message="intf:headerRequest"
+					part="header" />
+				<wsdlsoap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output
+				name="findApplicationReleaseByApplicationUIDAndVersionResponse">
+				<wsdlsoap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="getApplicationReleasesByApplicationUID">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="getApplicationReleasesByApplicationUIDRequest">
+				<wsdlsoap:header use="literal" message="intf:headerRequest"
+					part="header" />
+				<wsdlsoap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getApplicationReleasesByApplicationUIDResponse">
+				<wsdlsoap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="getApplicationRelease">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="getApplicationReleaseRequest">
+				<wsdlsoap:header use="literal" message="intf:headerRequest"
+					part="header" />
+				<wsdlsoap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getApplicationReleaseResponse">
+				<wsdlsoap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="deleteApplicationRelease">
+			<wsdlsoap:operation soapAction="" />
+			<wsdl:input name="deleteApplicationReleaseRequest">
+				<wsdlsoap:header use="literal" message="intf:headerRequest"
+					part="header" />
+				<wsdlsoap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="deleteApplicationReleaseResponse">
+				<wsdlsoap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="PaasAdministrationService">
+		<wsdl:port name="PaasAdministrationServicePort"
+			binding="intf:PaasAdministrationServicePortSoapBinding">
+			<wsdlsoap:address location="localhost:9000" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

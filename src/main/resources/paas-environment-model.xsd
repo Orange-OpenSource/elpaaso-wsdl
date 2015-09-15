@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:model="http://www.orange.com/paas/environment/v3/model" xmlns:xmime="http://www.w3.org/2005/05/xmlmime"
+	targetNamespace="http://www.orange.com/paas/environment/v3/model">
+
+	<!-- Xsd Version : ${project.version} - Built on ${timestamp} -->
+
+	<complexType name="CreateEnvironmentCommand">
+		<sequence>
+			<element name="type" type="model:EnvironmentTypeEnum"
+				minOccurs="1" />
+			<element name="releaseUID" type="model:UUIDType" minOccurs="1" />
+			<element name="label" type="model:labelType" minOccurs="1" />
+		</sequence>
+	</complexType>
+
+	<complexType name="DeleteEnvironmentCommand">
+		<sequence>
+			<element name="uid" type="string" minOccurs="1"/>
+		</sequence>
+	</complexType>
+
+	<complexType name="StopEnvironmentCommand">
+		<sequence>
+			<element name="uid" type="string" minOccurs="1"/>
+		</sequence>
+	</complexType>
+
+	<complexType name="StartEnvironmentCommand">
+		<sequence>
+			<element name="uid" type="string" minOccurs="1"/>
+		</sequence>
+	</complexType>
+
+	<complexType name="EnvironmentModel">
+		<sequence>
+			<element name="type" type="model:EnvironmentTypeEnum"
+				minOccurs="1" />
+			<element name="uid" type="model:UUIDType" minOccurs="1" />
+			<element name="releaseUID" type="model:UUIDType" minOccurs="1" />
+			<element name="owner" type="model:ownerType" minOccurs="1" />
+			<element name="label" type="model:labelType" minOccurs="1" />
+			<element name="status" type="model:EnvironmentStatus"
+				minOccurs="1" />
+		</sequence>
+	</complexType>
+
+	<complexType name="EnvironmentStatus">
+		<sequence>
+			<element name="type" type="model:EnvironmentStatusEnum"
+				minOccurs="1" />
+			<element name="message" type="model:messageType" minOccurs="0" />
+			<element name="progress" type="model:progressType" minOccurs="1" />
+		</sequence>
+	</complexType>
+
+	<simpleType name="messageType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Description : champ facultatif, peut etre vide ou
+				null
+				Au maximum 150 caracteres
+			</xsd:documentation>
+		</xsd:annotation>
+		<restriction base="string">
+			<maxLength value="150" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="progressType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Description : champ obligatoire, ne peut etre vide
+				ou null
+				Au maximum 3 caracteres
+			</xsd:documentation>
+		</xsd:annotation>
+		<restriction base="string">
+			<maxLength value="3" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="labelType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Label : champ obligatoire, ne peut etre vide /
+				null
+				Contient uniquement des caracteres alphanumeriques, 128
+				caracteres max
+			</xsd:documentation>
+		</xsd:annotation>
+		<restriction base="string">
+			<maxLength value="128" />
+			<pattern value="[a-zA-Z0-9]+" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="ownerType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Owner : champ obligatoire, ne peut etre vide ou
+				null
+				Au maximum 15 caracteres, seulement des caracteres
+				alphanumeriques
+			</xsd:documentation>
+		</xsd:annotation>
+		<restriction base="string">
+			<maxLength value="15" />
+			<pattern value="[a-zA-Z0-9]+" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="UUIDType">
+		<xsd:annotation>
+			<xsd:documentation>
+				applicationUID : champ obligatoire, ne peut etre
+				vide / null
+				Chaine de caracteres alphanumerique (hexa), 36
+				characteres max
+			</xsd:documentation>
+		</xsd:annotation>
+		<restriction base="string">
+			<maxLength value="36" />
+			<pattern
+				value="[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="EnvironmentTypeEnum">
+		<restriction base="string">
+			<enumeration value="DEVELOPMENT" />
+			<enumeration value="TEST" />
+			<enumeration value="LOAD_TEST" />
+			<enumeration value="PRODUCTION" />
+			<enumeration value="PRE_PROD" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="EnvironmentStatusEnum">
+		<restriction base="string">
+			<enumeration value="TRANSIENT" />
+			<enumeration value="CREATING" />
+			<enumeration value="CREATED" />
+			<enumeration value="STARTING" />
+			<enumeration value="STARTED" />
+			<enumeration value="RUNNING" />
+			<enumeration value="STOPPING" />
+			<enumeration value="STOPPED" />
+			<enumeration value="REMOVING" />
+			<enumeration value="REMOVED" />
+			<enumeration value="FAILED" />
+			<enumeration value="UNKNOWN" />
+			<enumeration value="DISCARDING" />
+			<enumeration value="DISCARDED" />
+		</restriction>
+	</simpleType>
+
+
+
+</schema>
