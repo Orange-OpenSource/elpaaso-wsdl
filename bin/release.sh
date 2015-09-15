@@ -27,10 +27,10 @@ then
 	echo "Extracted Travis repo name: $REPO_NAME"
 
 	JFROG_PROMOTION_URL=http://oss.jfrog.org/api/plugins/build/promote/snapshotsToBintray/$REPO_NAME/${TRAVIS_BUILD_NUMBER}
-	echo "Promotion URL to use: $JFROG_PROMOTION_URL\n"
+	echo "Promotion URL to use: $JFROG_PROMOTION_URL"
 	curl --silent -X POST -u ${BINTRAY_USER}:${BINTRAY_PASSWORD} $JFROG_PROMOTION_URL
 
 	BINTRAY_URL="https://jcenter.bintray.com/com/orange/clara/cloud/$REPO_NAME/$RELEASE_NAME/$REPO_NAME-$RELEASE_NAME.jar"
-	echo "Checking release $RELEASE_NAME is available at $BINTRAY_URL\n"
+	echo "Checking release $RELEASE_NAME is available at $BINTRAY_URL"
 	wget $BINTRAY_URL
 fi
